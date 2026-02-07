@@ -30,9 +30,33 @@ export const paymentTokens = [
   { id: 'busd', name: 'BUSD', network: 'BEP20', symbol: 'BUSD', rate: 1500 },
 ];
 
+export const vestingSchedule = [
+  {
+    id: 'seed-1',
+    title: 'Seed Round Cliff',
+    unlockDate: '2026-04-01',
+    amount: 200000,
+    claimed: 0,
+  },
+  {
+    id: 'seed-2',
+    title: 'Seed Round Vesting 1',
+    unlockDate: '2026-05-01',
+    amount: 150000,
+    claimed: 0,
+  },
+  {
+    id: 'seed-3',
+    title: 'Seed Round Vesting 2',
+    unlockDate: '2026-06-01',
+    amount: 150000,
+    claimed: 0,
+  },
+];
+
 export const marketSummary = [
   { label: 'Market Cap', value: '$112.4M' },
   { label: '24h Volume', value: '$6.3M' },
-  { label: 'Circulating Supply', value: '5.6B M5VF' },
-  { label: 'Total Supply', value: '9.8B M5VF' },
+  { label: 'Circulating Supply', value: '5.6B SAI' },
+  { label: 'Total Supply', value: '9.8B SAI' },
 ];

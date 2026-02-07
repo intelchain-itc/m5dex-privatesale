@@ -14,8 +14,8 @@ const navItems = [
 const Sidebar = () => (
   <aside className="sidebar">
     <div className="brand">
-      <div className="logo">M5VF</div>
-      <span>Private Sale Portal</span>
+      <div className="logo">SAICCP</div>
+      <span>Sustainable AI Carbon Credit Program</span>
     </div>
     <nav className="nav-list">
       {navItems.map((item) => (

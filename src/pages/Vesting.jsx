@@ -1,7 +1,7 @@
 import { useSaleState } from '../hooks/useSaleState.js';
 
 const Vesting = () => {
-  const { state, claimVesting, availableToClaim, loading, error } = useSaleState();
+  const { state, claimVesting, availableToClaim } = useSaleState();
 
   return (
     <div className="vesting-page">
@@ -13,15 +13,13 @@ const Vesting = () => {
       <div className="vesting-summary">
         <div>
           <span>Total Holdings</span>
-          <strong>{loading ? 'Loading...' : `${state.holdings.toLocaleString()} M5VF`}</strong>
+          <strong>{state.holdings.toLocaleString()} SAI</strong>
         </div>
         <div>
           <span>Available to Claim</span>
-          <strong>{loading ? 'Loading...' : `${availableToClaim.toLocaleString()} M5VF`}</strong>
+          <strong>{availableToClaim.toLocaleString()} SAI</strong>
         </div>
       </div>
-
-      {error && <p className="error">{error}</p>}
 
       <div className="vesting-list">
         {state.vesting.map((item) => {
@@ -35,11 +33,11 @@ const Vesting = () => {
               </div>
               <div>
                 <span>Total</span>
-                <strong>{item.amount.toLocaleString()} M5VF</strong>
+                <strong>{item.amount.toLocaleString()} SAI</strong>
               </div>
               <div>
                 <span>Remaining</span>
-                <strong>{remaining.toLocaleString()} M5VF</strong>
+                <strong>{remaining.toLocaleString()} SAI</strong>
               </div>
               <button
                 className="primary-button"

@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useWallet } from '../context/WalletContext.jsx';
+
+const API_BASE = import.meta.env.VITE_API_URL || '';
+const DEMO_WALLET = 'demo-wallet';
 
 const fallbackState = {
   holdings: 0,
@@ -9,40 +11,35 @@ const fallbackState = {
       id: 1,
       title: 'Seed Round Cliff',
       unlockDate: '2026-04-01',
-      amount: 0,
+      amount: 200000,
       claimed: 0,
     },
     {
       id: 2,
       title: 'Seed Round Vesting 1',
       unlockDate: '2026-05-01',
-      amount: 0,
+      amount: 150000,
       claimed: 0,
     },
     {
       id: 3,
       title: 'Seed Round Vesting 2',
       unlockDate: '2026-06-01',
-      amount: 0,
+      amount: 150000,
       claimed: 0,
     },
   ],
 };
 
 export const useSaleState = () => {
-  const { wallet, solanaAddress } = useWallet();
   const [state, setState] = useState(fallbackState);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const fetchState = useCallback(async () => {
-    if (!wallet) {
-      setState(fallbackState);
-      return;
-    }
     try {
       setLoading(true);
-      const response = await fetch(`/api/state?wallet=${wallet}`);
+      const response = await fetch(`${API_BASE}/api/state?wallet=${DEMO_WALLET}`);
       if (!response.ok) {
         throw new Error('Failed to load sale state');
       }
@@ -51,42 +48,21 @@ export const useSaleState = () => {
       setError(null);
     } catch (err) {
       setError('API offline, showing cached data.');
+      setState((prev) => (prev?.vesting?.length ? prev : fallbackState));
     } finally {
       setLoading(false);
     }
-  }, [wallet]);
+  }, []);
 
   useEffect(() => {
     fetchState();
   }, [fetchState]);
 
-  const addPurchase = async (amount, network) => {
-    if (!wallet) {
-      setError('Connect wallet first.');
-      return null;
-    }
-    const response = await fetch('/api/purchase', {
+  const addPurchase = async (amount, tokenId) => {
+    const response = await fetch(`${API_BASE}/api/purchase`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ wallet, amount, network }),
-    });
-    if (!response.ok) {
-      setError('Purchase initiation failed.');
-      return null;
-    }
-    const data = await response.json();
-    return data;
-  };
-
-  const confirmPurchase = async (purchaseId, txHash) => {
-    if (!wallet) {
-      setError('Connect wallet first.');
-      return;
-    }
-    const response = await fetch('/api/purchase/confirm', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ wallet, purchaseId, txHash }),
+      body: JSON.stringify({ wallet: DEMO_WALLET, amount, tokenId }),
     });
     if (response.ok) {
       await fetchState();
@@ -94,14 +70,10 @@ export const useSaleState = () => {
   };
 
   const claimVesting = async (id) => {
-    if (!wallet || !solanaAddress) {
-      setError('Connect wallet and Solana address first.');
-      return;
-    }
-    const response = await fetch(`/api/vesting/${id}/claim`, {
+    const response = await fetch(`${API_BASE}/api/vesting/${id}/claim`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ wallet, solanaAddress }),
+      body: JSON.stringify({ wallet: DEMO_WALLET }),
     });
     if (response.ok) {
       await fetchState();
@@ -124,7 +96,6 @@ export const useSaleState = () => {
     loading,
     error,
     addPurchase,
-    confirmPurchase,
     claimVesting,
     availableToClaim,
   };

@@ -3,7 +3,7 @@ import { marketSummary, saleRounds } from '../data/mockData.js';
 import Countdown from '../components/Countdown.jsx';
 
 const Dashboard = () => {
-  const { state, loading, error } = useSaleState();
+  const { state } = useSaleState();
   const activeRound = saleRounds[0];
 
   return (
@@ -18,13 +18,13 @@ const Dashboard = () => {
         <div className="stat-card stat-green">
           <div>
             <h3>Participants</h3>
-            <p>{loading ? 'Loading...' : state.participants}</p>
+            <p>{state.participants}</p>
           </div>
         </div>
         <div className="stat-card stat-blue">
           <div>
             <h3>Your Holdings</h3>
-            <p>{loading ? 'Loading...' : `${state.holdings.toLocaleString()} M5VF`}</p>
+            <p>{state.holdings.toLocaleString()} SAI</p>
           </div>
         </div>
       </section>
@@ -57,7 +57,7 @@ const Dashboard = () => {
           </div>
         </div>
         <button className="primary-button wide">Participate Now</button>
-        <p className="helper">Join the current sale round and get your M5VF tokens.</p>
+        <p className="helper">Join the current sale round and get your SAICCP tokens.</p>
         <ul className="benefits">
           <li>Secure token purchase</li>
           <li>Transparent pricing</li>
@@ -81,7 +81,6 @@ const Dashboard = () => {
 
       <section className="market-summary">
         <h3>Market Summary</h3>
-        {error && <p className="error">{error}</p>}
         <div>
           {marketSummary.map((item) => (
             <div key={item.label}>

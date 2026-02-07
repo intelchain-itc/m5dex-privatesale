@@ -1,5 +1,7 @@
 :root {
   font-family: 'Inter', system-ui, sans-serif;
+  color: #0f1f1c;
+  background: #f4f6f3;
 }
 
 * {
@@ -10,46 +12,7 @@
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--text);
-}
-
-body[data-theme='dark'] {
-  --bg: #0f1d1c;
-  --text: #f2f7f6;
-  --muted: #a7b8b4;
-  --sidebar-bg: #193a38;
-  --sidebar-text: #e5f7f5;
-  --card-bg: #1d2f2c;
-  --panel-bg: #1b2a27;
-  --surface: #233c39;
-  --accent: #cfee61;
-  --accent-dark: #0e2620;
-  --stat-purple: #4b3f6f;
-  --stat-green: #245844;
-  --stat-blue: #233d61;
-  --shadow: rgba(6, 12, 11, 0.35);
-  --sale-gradient: linear-gradient(180deg, #2f9696 0%, #1d3c3d 100%);
-  --purchase-gradient: linear-gradient(180deg, #2f9696 0%, #1f5c5d 100%);
-}
-
-body[data-theme='light'] {
-  --bg: #f4f6f3;
-  --text: #0f1f1c;
-  --muted: #5c6f6a;
-  --sidebar-bg: #224d4b;
-  --sidebar-text: #e5f7f5;
-  --card-bg: #ffffff;
-  --panel-bg: #ffffff;
-  --surface: #f0f5ee;
-  --accent: #cfee61;
-  --accent-dark: #0e2620;
-  --stat-purple: #d9d3f3;
-  --stat-green: #c8f1da;
-  --stat-blue: #c5dcfb;
-  --shadow: rgba(15, 30, 25, 0.08);
-  --sale-gradient: linear-gradient(180deg, #2f9696 0%, #234d4e 100%);
-  --purchase-gradient: linear-gradient(180deg, #2f9696 0%, #1f5c5d 100%);
+  background: #f4f6f3;
 }
 
 a {
@@ -64,8 +27,8 @@ a {
 }
 
 .sidebar {
-  background: var(--sidebar-bg);
-  color: var(--sidebar-text);
+  background: #224d4b;
+  color: #e5f7f5;
   padding: 32px 20px;
   display: flex;
   flex-direction: column;
@@ -105,12 +68,12 @@ a {
   justify-content: space-between;
   align-items: center;
   background: transparent;
-  color: var(--sidebar-text);
+  color: #eaf8f6;
   transition: all 0.2s ease;
 }
 
 .nav-item.active {
-  background: var(--accent);
+  background: #cfee61;
   color: #17302b;
   font-weight: 600;
 }
@@ -136,10 +99,6 @@ a {
   cursor: pointer;
 }
 
-.ghost-button.wide {
-  width: 100%;
-}
-
 .main-content {
   padding: 32px 40px;
   display: flex;
@@ -159,18 +118,13 @@ a {
 }
 
 .top-bar p {
-  color: var(--muted);
+  color: #5c6f6a;
   font-size: 14px;
 }
 
-.top-actions {
-  display: flex;
-  gap: 12px;
-}
-
 .primary-button {
-  background: var(--accent);
-  color: var(--accent-dark);
+  background: #cfee61;
+  color: #0e2620;
   border: none;
   padding: 12px 24px;
   border-radius: 999px;
@@ -183,7 +137,8 @@ a {
   cursor: not-allowed;
 }
 
-.primary-button.wide {
+.primary-button.wide,
+.ghost-button.wide {
   width: 100%;
 }
 
@@ -209,7 +164,7 @@ a {
 .stat-card {
   padding: 20px;
   border-radius: 20px;
-  color: #f6fffe;
+  color: #1c2d29;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -227,20 +182,20 @@ a {
 }
 
 .stat-purple {
-  background: var(--stat-purple);
+  background: #d9d3f3;
 }
 
 .stat-green {
-  background: var(--stat-green);
+  background: #c8f1da;
 }
 
 .stat-blue {
-  background: var(--stat-blue);
+  background: #c5dcfb;
 }
 
 .sale-card {
   grid-column: 1 / 4;
-  background: var(--sale-gradient);
+  background: linear-gradient(180deg, #2f9696 0%, #234d4e 100%);
   color: #f4fffd;
   border-radius: 24px;
   padding: 24px;
@@ -299,7 +254,7 @@ a {
 }
 
 .sale-details .highlight {
-  color: var(--accent);
+  color: #cfee61;
 }
 
 .sale-card .helper {
@@ -322,23 +277,23 @@ a {
 }
 
 .panel {
-  background: var(--panel-bg);
+  background: #ffffff;
   border-radius: 20px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  box-shadow: 0 8px 24px var(--shadow);
+  box-shadow: 0 8px 24px rgba(15, 30, 25, 0.08);
 }
 
 .panel p {
-  color: var(--muted);
+  color: #61706b;
   font-size: 13px;
 }
 
 .chip {
   display: inline-flex;
-  background: var(--surface);
+  background: #f0f5ee;
   border-radius: 12px;
   padding: 4px 10px;
   font-size: 12px;
@@ -346,7 +301,7 @@ a {
 
 .market-summary {
   grid-column: 1 / 5;
-  background: var(--card-bg);
+  background: #ffffff;
   border-radius: 24px;
   padding: 20px;
 }
@@ -359,12 +314,7 @@ a {
 }
 
 .market-summary span {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.error {
-  color: #ffb3b3;
+  color: #74827d;
   font-size: 13px;
 }
 
@@ -381,18 +331,16 @@ a {
 }
 
 .round-card {
-  background: var(--card-bg);
+  background: #e6f8ee;
   border-radius: 24px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  box-shadow: 0 8px 24px var(--shadow);
 }
 
 .round-card.active {
-  background: #2e5d4b;
-  color: #f2fffd;
+  background: #c9f0d9;
 }
 
 .round-header {
@@ -412,13 +360,13 @@ a {
 }
 
 .discount {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.65);
   padding: 10px;
   border-radius: 16px;
 }
 
 .purchase-panel {
-  background: var(--purchase-gradient);
+  background: linear-gradient(180deg, #2f9696 0%, #1f5c5d 100%);
   color: #f2fffd;
   border-radius: 24px;
   padding: 24px;
@@ -458,7 +406,7 @@ select {
 
 .progress-card {
   grid-column: 1 / -1;
-  background: var(--card-bg);
+  background: #ffffff;
   border-radius: 24px;
   padding: 20px;
   display: flex;
@@ -469,12 +417,12 @@ select {
 .progress-meta {
   display: flex;
   justify-content: space-between;
-  color: var(--muted);
+  color: #6c7b75;
   font-size: 13px;
 }
 
 .progress-bar {
-  background: var(--surface);
+  background: #e4eae7;
   height: 10px;
   border-radius: 999px;
   overflow: hidden;
@@ -483,14 +431,14 @@ select {
 .progress-bar span {
   display: block;
   height: 100%;
-  background: linear-gradient(90deg, #7c8e34, var(--accent));
+  background: linear-gradient(90deg, #7c8e34, #cfee61);
 }
 
 .progress-dates {
   display: flex;
   justify-content: space-between;
   font-size: 12px;
-  color: var(--muted);
+  color: #7a8a84;
 }
 
 .convert-page,
@@ -507,7 +455,7 @@ select {
 }
 
 .token-card {
-  background: var(--surface);
+  background: #f4f6f3;
   border-radius: 16px;
   padding: 16px;
 }
@@ -515,7 +463,7 @@ select {
 .divider {
   text-align: center;
   font-size: 12px;
-  color: var(--muted);
+  color: #7a8a84;
 }
 
 .vesting-summary {
@@ -524,7 +472,7 @@ select {
 }
 
 .vesting-summary div {
-  background: var(--card-bg);
+  background: #ffffff;
   border-radius: 18px;
   padding: 16px;
   min-width: 200px;
@@ -537,7 +485,7 @@ select {
 }
 
 .vesting-card {
-  background: var(--card-bg);
+  background: #ffffff;
   border-radius: 20px;
   padding: 20px;
   display: grid;

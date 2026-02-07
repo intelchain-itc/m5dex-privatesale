@@ -23,7 +23,7 @@ const Presale = () => {
 
   const handlePurchase = () => {
     if (receivedTokens > 0) {
-      addPurchase(receivedTokens, tokenId);
+      addPurchase(receivedTokens);
     }
   };
 
@@ -93,7 +93,7 @@ const Presale = () => {
         </div>
         <div className="receive-row">
           <span>You will receive:</span>
-          <strong>{receivedTokens.toLocaleString()} M5VF</strong>
+          <strong>{receivedTokens.toLocaleString()} SAI</strong>
         </div>
         <button className="primary-button wide" onClick={handlePurchase}>
           Connect Wallet & Buy
