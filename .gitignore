@@ -1,4 +1,6 @@
 node_modules/
-dist/
+m5sale-ui/node_modules/
+m5sale-ui/dist/
+m5sale-api/node_modules/
 .env
 .DS_Store
