@@ -1,0 +1,6 @@
+[programs.localnet]
+m5vf_vesting = "M5VfVstng1111111111111111111111111111111"
+
+[provider]
+cluster = "devnet"
+wallet = "~/.config/solana/id.json"
