@@ -7,6 +7,12 @@ declare_id!("M5VfVstng1111111111111111111111111111111");
 pub mod m5vf_vesting {
     use super::*;
 
+    pub fn initialize_treasury(ctx: Context<InitializeTreasury>) -> Result<()> {
+        let treasury = &mut ctx.accounts.treasury;
+        treasury.bump = *ctx.bumps.get("treasury").unwrap();
+        Ok(())
+    }
+
     pub fn initialize_vesting(
         ctx: Context<InitializeVesting>,
         total_amount: u64,
@@ -63,6 +69,21 @@ pub struct InitializeVesting<'info> {
 }
 
 #[derive(Accounts)]
+pub struct InitializeTreasury<'info> {
+    #[account(mut)]
+    pub payer: Signer<'info>,
+    pub mint: Account<'info, Mint>,
+    #[account(
+        init,
+        payer = payer,
+        space = 8 + TreasuryAccount::INIT_SPACE,
+        seeds = [b"treasury", mint.key().as_ref()],
+        bump
+    )]
+    pub treasury: Account<'info, TreasuryAccount>,
+    pub system_program: Program<'info, System>,
+}
+#[derive(Accounts)]
 pub struct Claim<'info> {
     #[account(mut)]
     pub beneficiary: Signer<'info>,
@@ -101,6 +122,10 @@ impl VestingAccount {
 #[account]
 pub struct TreasuryAccount {
     pub bump: u8,
+}
+
+impl TreasuryAccount {
+    pub const INIT_SPACE: usize = 1;
 }
 
 #[error_code]

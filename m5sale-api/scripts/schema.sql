@@ -8,6 +8,10 @@ CREATE TABLE IF NOT EXISTS wallets (
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   wallet_id INTEGER REFERENCES wallets(id) ON DELETE CASCADE,
+  clerk_id TEXT UNIQUE,
+  email TEXT,
+  referral_code TEXT UNIQUE NOT NULL,
+  referrer_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
   email TEXT,
   UNIQUE(wallet_id),
   created_at TIMESTAMP DEFAULT NOW()
@@ -31,6 +35,16 @@ CREATE TABLE IF NOT EXISTS purchases (
   tokens_allocated NUMERIC NOT NULL,
   tx_hash TEXT,
   status TEXT DEFAULT 'pending',
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS commissions (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  purchase_id INTEGER REFERENCES purchases(id) ON DELETE CASCADE,
+  level INTEGER NOT NULL,
+  rate NUMERIC NOT NULL,
+  amount NUMERIC NOT NULL,
   created_at TIMESTAMP DEFAULT NOW()
 );
 

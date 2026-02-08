@@ -3,6 +3,11 @@ import Sidebar from './Sidebar.jsx';
 import TopBar from './TopBar.jsx';
 import WalletModal from './WalletModal.jsx';
 import { useWallet } from '../context/WalletContext.jsx';
+import { useUser } from '@clerk/clerk-react';
+
+const Layout = ({ children }) => {
+  const { isModalOpen, referralCode } = useWallet();
+  const { user } = useUser();
 
 const Layout = ({ children }) => {
   const { isModalOpen } = useWallet();
@@ -14,6 +19,12 @@ const Layout = ({ children }) => {
     await fetch('/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        wallet,
+        email,
+        clerkId: user?.id,
+        referralCode,
+      }),
       body: JSON.stringify({ wallet, email }),
     });
   };

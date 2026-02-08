@@ -10,6 +10,14 @@ const tokenomics = [
   { label: 'Treasury', value: '10%' },
 ];
 
+const Landing = () => {
+  const params = new URLSearchParams(window.location.search);
+  const ref = params.get('ref');
+  const signUpUrl = ref ? `/sign-up?ref=${ref}` : '/sign-up';
+  const signInUrl = ref ? `/sign-in?ref=${ref}` : '/sign-in';
+
+  return (
+    <div className="landing">
 const Landing = () => (
   <div className="landing">
     <header className="landing-hero">
@@ -22,6 +30,10 @@ const Landing = () => (
         </p>
         <div className="hero-actions">
           <SignedOut>
+            <Link className="primary-button" to={signUpUrl}>
+              Create account
+            </Link>
+            <Link className="ghost-button" to={signInUrl}>
             <Link className="primary-button" to="/sign-up">
               Create account
             </Link>
@@ -77,6 +89,8 @@ const Landing = () => (
       </div>
     </section>
   </div>
+  );
+};
 );
 
 export default Landing;

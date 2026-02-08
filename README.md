@@ -12,6 +12,7 @@ This repo contains a full-stack token sale portal for the **M5VF** private sale.
 - Total supply: **5,000,000,000 M5VF**
 - Payments: **USDT on ERC20, BEP20, TRC20 testnets**
 - Token delivery: **Solana devnet (SPL token)**
+- Referral commissions: **10% (L1), 4% (L2), 6% (L3)**
 
 ## Frontend setup
 ```bash

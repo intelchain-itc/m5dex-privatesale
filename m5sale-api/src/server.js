@@ -4,6 +4,7 @@ import pg from 'pg';
 import dotenv from 'dotenv';
 import { ethers } from 'ethers';
 import TronWeb from 'tronweb';
+import crypto from 'crypto';
 import {
   Connection,
   Keypair,
@@ -49,6 +50,33 @@ app.use(cors());
 app.use(express.json());
 
 const toNumber = (value) => (value ? Number(value) : 0);
+
+const generateReferralCode = async () => {
+  let code = '';
+  while (!code) {
+    const candidate = crypto.randomBytes(4).toString('hex');
+    const exists = await pool.query('SELECT id FROM users WHERE referral_code = $1', [candidate]);
+    if (!exists.rows.length) {
+      code = candidate;
+    }
+  }
+  return code;
+};
+
+const getReferralChain = async (userId) => {
+  const chain = [];
+  let currentId = userId;
+  for (let level = 1; level <= 3; level += 1) {
+    const ref = await pool.query('SELECT referrer_id FROM users WHERE id = $1', [currentId]);
+    if (!ref.rows.length || !ref.rows[0].referrer_id) {
+      break;
+    }
+    const referrerId = ref.rows[0].referrer_id;
+    chain.push({ level, referrerId });
+    currentId = referrerId;
+  }
+  return chain;
+};
 
 const getEvmProvider = () => {
   if (!process.env.EVM_RPC_URL) {
@@ -222,6 +250,43 @@ app.get('/api/health', (req, res) => {
 });
 
 app.post('/api/register', async (req, res) => {
+  const { wallet, email, clerkId, referralCode } = req.body;
+  if (!wallet) {
+    return res.status(400).json({ error: 'wallet is required' });
+  }
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const walletRow = await ensureWallet(wallet);
+    const existing = await client.query('SELECT id, referral_code FROM users WHERE wallet_id = $1', [
+      walletRow.id,
+    ]);
+    if (existing.rows.length) {
+      await client.query('COMMIT');
+      return res.json({ status: 'ok', referralCode: existing.rows[0].referral_code });
+    }
+
+    const code = await generateReferralCode();
+    let referrerId = null;
+    if (referralCode) {
+      const referrer = await client.query('SELECT id FROM users WHERE referral_code = $1', [referralCode]);
+      if (referrer.rows.length) {
+        referrerId = referrer.rows[0].id;
+      }
+    }
+
+    await client.query(
+      `INSERT INTO users (wallet_id, clerk_id, email, referral_code, referrer_id)
+       VALUES ($1, $2, $3, $4, $5)`,
+      [walletRow.id, clerkId || null, email || null, code, referrerId]
+    );
+    await client.query('COMMIT');
+    return res.json({ status: 'ok', referralCode: code });
+  } catch (error) {
+    await client.query('ROLLBACK');
+    return res.status(500).json({ error: 'registration failed' });
+  } finally {
+    client.release();
   const { wallet, email } = req.body;
   if (!wallet) {
     return res.status(400).json({ error: 'wallet is required' });
@@ -248,6 +313,29 @@ app.get('/api/state', async (req, res) => {
     return res.json(state);
   } catch (error) {
     return res.status(500).json({ error: 'failed to load state' });
+  }
+});
+
+app.get('/api/profile', async (req, res) => {
+  const wallet = req.query.wallet;
+  if (!wallet) {
+    return res.status(400).json({ error: 'wallet is required' });
+  }
+  try {
+    const walletRow = await ensureWallet(wallet);
+    const user = await pool.query('SELECT id, referral_code FROM users WHERE wallet_id = $1', [
+      walletRow.id,
+    ]);
+    const commissions = await pool.query(
+      'SELECT COALESCE(SUM(amount), 0) AS total FROM commissions WHERE user_id = $1',
+      [user.rows[0]?.id || 0]
+    );
+    return res.json({
+      referralCode: user.rows[0]?.referral_code || null,
+      commissionTotal: Number(commissions.rows[0].total || 0),
+    });
+  } catch (error) {
+    return res.status(500).json({ error: 'failed to load profile' });
   }
 });
 
@@ -341,6 +429,22 @@ app.post('/api/purchase/confirm', async (req, res) => {
       [Math.floor(row.tokens_allocated * 0.4), walletRow.id]
     );
 
+    const buyerUser = await client.query('SELECT id FROM users WHERE wallet_id = $1', [walletRow.id]);
+    if (buyerUser.rows.length) {
+      const chain = await getReferralChain(buyerUser.rows[0].id);
+      const commissionRates = { 1: 0.1, 2: 0.04, 3: 0.06 };
+      for (const entry of chain) {
+        const rate = commissionRates[entry.level];
+        if (!rate) continue;
+        const commissionAmount = Number(row.amount_paid) * rate;
+        await client.query(
+          `INSERT INTO commissions (user_id, purchase_id, level, rate, amount)
+           VALUES ($1, $2, $3, $4, $5)`,
+          [entry.referrerId, row.id, entry.level, rate, commissionAmount]
+        );
+      }
+    }
+
     await client.query('COMMIT');
     const state = await getWalletState(wallet);
     return res.json(state);
@@ -383,6 +487,27 @@ app.get('/api/airdrops', async (req, res) => {
     return res.json(airdrops.rows);
   } catch (error) {
     return res.status(500).json({ error: 'failed to load airdrops' });
+  }
+});
+
+app.get('/api/commissions', async (req, res) => {
+  const { wallet } = req.query;
+  if (!wallet) {
+    return res.status(400).json({ error: 'wallet is required' });
+  }
+  try {
+    const walletRow = await ensureWallet(wallet);
+    const user = await pool.query('SELECT id FROM users WHERE wallet_id = $1', [walletRow.id]);
+    if (!user.rows.length) {
+      return res.json([]);
+    }
+    const commissions = await pool.query(
+      'SELECT level, rate, amount, created_at FROM commissions WHERE user_id = $1 ORDER BY created_at DESC',
+      [user.rows[0].id]
+    );
+    return res.json(commissions.rows);
+  } catch (error) {
+    return res.status(500).json({ error: 'failed to load commissions' });
   }
 });
 

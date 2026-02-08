@@ -1,10 +1,17 @@
 import { useSaleState } from '../hooks/useSaleState.js';
+import { useProfile } from '../hooks/useProfile.js';
+import { useWallet } from '../context/WalletContext.jsx';
 import { marketSummary, saleRounds } from '../data/mockData.js';
 import Countdown from '../components/Countdown.jsx';
 
 const Dashboard = () => {
   const { state, loading, error } = useSaleState();
   const activeRound = saleRounds[0];
+  const profile = useProfile();
+  const { wallet } = useWallet();
+  const referralLink = profile.referralCode
+    ? `${window.location.origin}/?ref=${profile.referralCode}`
+    : '';
 
   return (
     <div className="dashboard-grid">
@@ -66,6 +73,18 @@ const Dashboard = () => {
       </section>
 
       <aside className="side-panels">
+        <div className="panel">
+          <h3>Your Referral Link</h3>
+          <p>Share to earn multi-level commissions on your downline.</p>
+          {wallet && referralLink ? (
+            <div className="referral-box">
+              <span>{referralLink}</span>
+              <strong>${profile.commissionTotal.toFixed(2)} earned</strong>
+            </div>
+          ) : (
+            <button className="ghost-button">Connect your wallet</button>
+          )}
+        </div>
         <div className="panel">
           <h3>Airdrop Overview</h3>
           <p>View and manage your recent airdrops</p>

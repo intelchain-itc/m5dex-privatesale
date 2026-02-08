@@ -3,6 +3,16 @@ import { useState } from 'react';
 import { useWallet } from '../context/WalletContext.jsx';
 
 const WalletModal = ({ onRegister }) => {
+  const {
+    wallet,
+    solanaAddress,
+    email,
+    referralCode,
+    setWallet,
+    setSolanaAddress,
+    setEmail,
+    closeModal,
+  } = useWallet();
   const { wallet, solanaAddress, email, setWallet, setSolanaAddress, setEmail, closeModal } = useWallet();
   const [localWallet, setLocalWallet] = useState(wallet);
   const [localSolana, setLocalSolana] = useState(solanaAddress);
@@ -42,6 +52,7 @@ const WalletModal = ({ onRegister }) => {
           value={localEmail}
           onChange={(event) => setLocalEmail(event.target.value)}
         />
+        {referralCode && <p className="helper">Referral code applied: {referralCode}</p>}
         <div className="modal-actions">
           <button className="ghost-button" onClick={closeModal}>
             Cancel

@@ -9,6 +9,15 @@ export const WalletProvider = ({ children }) => {
   const [solanaAddress, setSolanaAddress] = useState('');
   const [email, setEmail] = useState('');
   const [isModalOpen, setModalOpen] = useState(false);
+  const [referralCode, setReferralCode] = useState('');
+
+  useEffect(() => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get('ref');
+    if (ref) {
+      setReferralCode(ref);
+    }
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -17,12 +26,16 @@ export const WalletProvider = ({ children }) => {
       setWallet(parsed.wallet || '');
       setSolanaAddress(parsed.solanaAddress || '');
       setEmail(parsed.email || '');
+      setReferralCode(parsed.referralCode || ref || '');
     }
   }, []);
 
   useEffect(() => {
     localStorage.setItem(
       STORAGE_KEY,
+      JSON.stringify({ wallet, solanaAddress, email, referralCode })
+    );
+  }, [wallet, solanaAddress, email, referralCode]);
       JSON.stringify({ wallet, solanaAddress, email })
     );
   }, [wallet, solanaAddress, email]);
@@ -32,6 +45,11 @@ export const WalletProvider = ({ children }) => {
       wallet,
       solanaAddress,
       email,
+      referralCode,
+      setWallet,
+      setSolanaAddress,
+      setEmail,
+      setReferralCode,
       setWallet,
       setSolanaAddress,
       setEmail,
@@ -39,6 +57,7 @@ export const WalletProvider = ({ children }) => {
       openModal: () => setModalOpen(true),
       closeModal: () => setModalOpen(false),
     }),
+    [wallet, solanaAddress, email, referralCode, isModalOpen]
     [wallet, solanaAddress, email, isModalOpen]
   );
 

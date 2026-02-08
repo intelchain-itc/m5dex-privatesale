@@ -10,6 +10,8 @@ contract PrivateSale {
     address public treasury;
     address public owner;
     uint256 public tokenPriceUsd; // price in USD with 1e2 precision (e.g., $0.10 = 10)
+    uint8 public usdtDecimals;
+    uint8 public tokenDecimals;
     uint256 public totalSupply;
     uint256 public totalSold;
     bool public isPaused;
@@ -26,6 +28,14 @@ contract PrivateSale {
         _;
     }
 
+    constructor(
+        address usdtAddress,
+        address treasuryAddress,
+        uint256 initialPrice,
+        uint256 supply,
+        uint8 usdtDecimals_,
+        uint8 tokenDecimals_
+    ) {
     constructor(address usdtAddress, address treasuryAddress, uint256 initialPrice, uint256 supply) {
         require(usdtAddress != address(0), "invalid usdt");
         require(treasuryAddress != address(0), "invalid treasury");
@@ -34,11 +44,14 @@ contract PrivateSale {
         owner = msg.sender;
         tokenPriceUsd = initialPrice;
         totalSupply = supply;
+        usdtDecimals = usdtDecimals_;
+        tokenDecimals = tokenDecimals_;
     }
 
     function buy(uint256 usdtAmount) external {
         require(!isPaused, "sale paused");
         require(usdtAmount > 0, "invalid amount");
+        uint256 tokensAllocated = (usdtAmount * (10 ** tokenDecimals) * 100) / tokenPriceUsd / (10 ** usdtDecimals);
         uint256 tokensAllocated = (usdtAmount * 100) / tokenPriceUsd;
         require(totalSold + tokensAllocated <= totalSupply, "sold out");
 

@@ -434,6 +434,21 @@ a {
   font-size: 13px;
 }
 
+.referral-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--surface);
+  padding: 12px;
+  border-radius: 16px;
+  word-break: break-all;
+  font-size: 12px;
+}
+
+.referral-box strong {
+  font-size: 14px;
+}
+
 .chip {
   display: inline-flex;
   background: var(--surface);

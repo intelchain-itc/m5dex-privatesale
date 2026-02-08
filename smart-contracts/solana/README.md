@@ -14,6 +14,9 @@ Call `initialize_vesting` with:
 - `total_amount`: token amount in base units
 - `unlock_time`: unix timestamp
 
+## Initialize treasury PDA
+Call `initialize_treasury` once per mint to create the PDA used to sign transfers.
+
 ## Claim
 Call `claim` after the unlock time. Tokens transfer from the PDA treasury token account to the beneficiary token account.
 
