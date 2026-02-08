@@ -18,6 +18,8 @@ const Landing = () => {
 
   return (
     <div className="landing">
+const Landing = () => (
+  <div className="landing">
     <header className="landing-hero">
       <div>
         <span className="badge">M5VF Private Sale</span>
@@ -32,6 +34,10 @@ const Landing = () => {
               Create account
             </Link>
             <Link className="ghost-button" to={signInUrl}>
+            <Link className="primary-button" to="/sign-up">
+              Create account
+            </Link>
+            <Link className="ghost-button" to="/sign-in">
               Login
             </Link>
           </SignedOut>
@@ -85,5 +91,6 @@ const Landing = () => {
   </div>
   );
 };
+);
 
 export default Landing;

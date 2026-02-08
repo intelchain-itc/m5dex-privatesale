@@ -287,6 +287,19 @@ app.post('/api/register', async (req, res) => {
     return res.status(500).json({ error: 'registration failed' });
   } finally {
     client.release();
+  const { wallet, email } = req.body;
+  if (!wallet) {
+    return res.status(400).json({ error: 'wallet is required' });
+  }
+  try {
+    const walletRow = await ensureWallet(wallet);
+    await pool.query(
+      'INSERT INTO users (wallet_id, email) VALUES ($1, $2) ON CONFLICT DO NOTHING',
+      [walletRow.id, email || null]
+    );
+    return res.json({ status: 'ok' });
+  } catch (error) {
+    return res.status(500).json({ error: 'registration failed' });
   }
 });
 

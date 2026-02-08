@@ -9,6 +9,7 @@ const SignInPage = () => (
       afterSignInUrl="/dashboard"
       afterSignUpUrl="/dashboard"
     />
+    <SignIn routing="path" path="/sign-in" signUpUrl="/sign-up" />
   </div>
 );
 

@@ -13,6 +13,7 @@ const WalletModal = ({ onRegister }) => {
     setEmail,
     closeModal,
   } = useWallet();
+  const { wallet, solanaAddress, email, setWallet, setSolanaAddress, setEmail, closeModal } = useWallet();
   const [localWallet, setLocalWallet] = useState(wallet);
   const [localSolana, setLocalSolana] = useState(solanaAddress);
   const [localEmail, setLocalEmail] = useState(email);
