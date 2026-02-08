@@ -1,0 +1,5 @@
+[workspace]
+members = [
+  "programs/m5vf_vesting"
+]
+resolver = "2"
