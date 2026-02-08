@@ -18,9 +18,6 @@ export const WalletProvider = ({ children }) => {
     if (ref) {
       setReferralCode(ref);
     }
-
-  useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       const parsed = JSON.parse(stored);
       setWallet(parsed.wallet || '');
@@ -36,9 +33,6 @@ export const WalletProvider = ({ children }) => {
       JSON.stringify({ wallet, solanaAddress, email, referralCode })
     );
   }, [wallet, solanaAddress, email, referralCode]);
-      JSON.stringify({ wallet, solanaAddress, email })
-    );
-  }, [wallet, solanaAddress, email]);
 
   const value = useMemo(
     () => ({
@@ -50,15 +44,11 @@ export const WalletProvider = ({ children }) => {
       setSolanaAddress,
       setEmail,
       setReferralCode,
-      setWallet,
-      setSolanaAddress,
-      setEmail,
       isModalOpen,
       openModal: () => setModalOpen(true),
       closeModal: () => setModalOpen(false),
     }),
     [wallet, solanaAddress, email, referralCode, isModalOpen]
-    [wallet, solanaAddress, email, isModalOpen]
   );
 
   return <WalletContext.Provider value={value}>{children}</WalletContext.Provider>;

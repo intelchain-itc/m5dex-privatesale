@@ -18,9 +18,25 @@ const Landing = () => {
 
   return (
     <div className="landing">
-const Landing = () => (
-  <div className="landing">
-    <header className="landing-hero">
+      <nav className="landing-nav">
+        <img src="https://m5dex.com/images/logo-high-res.png" alt="M5DEX" />
+        <div className="landing-nav-actions">
+          <SignedOut>
+            <Link className="ghost-button" to={signInUrl}>
+              Login
+            </Link>
+            <Link className="primary-button" to={signUpUrl}>
+              Sign up
+            </Link>
+          </SignedOut>
+          <SignedIn>
+            <Link className="primary-button" to="/dashboard">
+              Open Dashboard
+            </Link>
+          </SignedIn>
+        </div>
+      </nav>
+      <header className="landing-hero">
       <div>
         <span className="badge">M5VF Private Sale</span>
         <h1>Build the future of M5VF on Solana.</h1>
@@ -34,10 +50,6 @@ const Landing = () => (
               Create account
             </Link>
             <Link className="ghost-button" to={signInUrl}>
-            <Link className="primary-button" to="/sign-up">
-              Create account
-            </Link>
-            <Link className="ghost-button" to="/sign-in">
               Login
             </Link>
           </SignedOut>
@@ -91,6 +103,5 @@ const Landing = () => (
   </div>
   );
 };
-);
 
 export default Landing;

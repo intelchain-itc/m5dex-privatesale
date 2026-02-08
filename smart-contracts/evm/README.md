@@ -5,7 +5,6 @@
 ## Notes
 - `tokenPriceUsd` uses 2 decimals. Example: `$0.10` = `10`.
 - `tokensAllocated` accounts for USDT and M5VF decimals.
-- `tokensAllocated` is computed as `usdtAmount * 100 / tokenPriceUsd`.
 - This contract only tracks allocations; M5VF delivery happens on Solana.
 
 ## Example deploy (Hardhat)
@@ -27,9 +26,6 @@ async function main() {
   const tokenDecimals = 9;
   const Sale = await ethers.getContractFactory("PrivateSale");
   const sale = await Sale.deploy(usdt, treasury, price, supply, usdtDecimals, tokenDecimals);
-  const supply = ethers.parseUnits("5000000000", 0);
-  const Sale = await ethers.getContractFactory("PrivateSale");
-  const sale = await Sale.deploy(usdt, treasury, price, supply);
   await sale.waitForDeployment();
   console.log("Sale deployed:", await sale.getAddress());
 }

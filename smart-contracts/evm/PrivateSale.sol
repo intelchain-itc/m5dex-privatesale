@@ -36,7 +36,6 @@ contract PrivateSale {
         uint8 usdtDecimals_,
         uint8 tokenDecimals_
     ) {
-    constructor(address usdtAddress, address treasuryAddress, uint256 initialPrice, uint256 supply) {
         require(usdtAddress != address(0), "invalid usdt");
         require(treasuryAddress != address(0), "invalid treasury");
         usdt = IERC20(usdtAddress);
@@ -52,7 +51,6 @@ contract PrivateSale {
         require(!isPaused, "sale paused");
         require(usdtAmount > 0, "invalid amount");
         uint256 tokensAllocated = (usdtAmount * (10 ** tokenDecimals) * 100) / tokenPriceUsd / (10 ** usdtDecimals);
-        uint256 tokensAllocated = (usdtAmount * 100) / tokenPriceUsd;
         require(totalSold + tokensAllocated <= totalSupply, "sold out");
 
         bool ok = usdt.transferFrom(msg.sender, treasury, usdtAmount);

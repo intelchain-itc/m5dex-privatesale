@@ -12,7 +12,6 @@ CREATE TABLE IF NOT EXISTS users (
   email TEXT,
   referral_code TEXT UNIQUE NOT NULL,
   referrer_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
-  email TEXT,
   UNIQUE(wallet_id),
   created_at TIMESTAMP DEFAULT NOW()
 );

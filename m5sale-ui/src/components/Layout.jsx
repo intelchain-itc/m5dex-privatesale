@@ -9,9 +9,6 @@ const Layout = ({ children }) => {
   const { isModalOpen, referralCode } = useWallet();
   const { user } = useUser();
 
-const Layout = ({ children }) => {
-  const { isModalOpen } = useWallet();
-
   const handleRegister = async (wallet, email) => {
     if (!wallet) {
       return;
@@ -25,7 +22,6 @@ const Layout = ({ children }) => {
         clerkId: user?.id,
         referralCode,
       }),
-      body: JSON.stringify({ wallet, email }),
     });
   };
 
