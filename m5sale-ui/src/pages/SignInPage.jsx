@@ -5,8 +5,8 @@ const SignInPage = () => (
     <div className="auth-shell">
       <div className="auth-left">
         <div className="auth-left-content">
-          <h2>Welcome back to M5VF</h2>
-          <p>Sign in to manage your holdings, vesting, and referral rewards.</p>
+          <h2>Welcome back to your premium M5VF portal</h2>
+          <p>Sign in to continue your private sale journey with live analytics and secure wallet workflows.</p>
         </div>
       </div>
       <div className="auth-right">
