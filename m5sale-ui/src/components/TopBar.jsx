@@ -4,7 +4,7 @@ import { UserButton } from '@clerk/clerk-react';
 
 const TopBar = () => {
   const { theme, toggleTheme } = useTheme();
-  const { wallet, openModal } = useWallet();
+  const { wallet, tronWallet, openModal } = useWallet();
 
   return (
     <header className="top-bar">
@@ -13,12 +13,15 @@ const TopBar = () => {
         <p>Solana testnet token sale portal</p>
       </div>
       <div className="top-actions">
-        {wallet ? <span className="wallet-pill">{wallet.slice(0, 6)}...{wallet.slice(-4)}</span> : null}
+        {wallet ? <span className="wallet-pill">EVM: {wallet.slice(0, 6)}...{wallet.slice(-4)}</span> : null}
+        {tronWallet ? (
+          <span className="wallet-pill">TRON: {tronWallet.slice(0, 6)}...{tronWallet.slice(-4)}</span>
+        ) : null}
         <button className="ghost-button" onClick={toggleTheme}>
           {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
         </button>
         <button className="primary-button" onClick={openModal}>
-          {wallet ? 'Update Wallet' : 'Connect Wallet'}
+          {wallet || tronWallet ? 'Manage Wallets' : 'Connect Wallet'}
         </button>
         <UserButton appearance={{ elements: { avatarBox: 'clerk-avatar' } }} />
       </div>

@@ -9,15 +9,17 @@ const Layout = ({ children }) => {
   const { isModalOpen, referralCode } = useWallet();
   const { user } = useUser();
 
-  const handleRegister = async (wallet, email) => {
-    if (!wallet) {
+  const handleRegister = async ({ wallet, tronWallet, email }) => {
+    const primaryWallet = wallet || tronWallet;
+    if (!primaryWallet) {
       return;
     }
     await fetch('/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        wallet,
+        wallet: primaryWallet,
+        tronWallet,
         email,
         clerkId: user?.id,
         referralCode,

@@ -18,10 +18,23 @@ This repo contains a full-stack token sale portal for the **M5VF** private sale.
 ```bash
 cd m5sale-ui
 cp .env.example .env
-# set VITE_CLERK_PUBLISHABLE_KEY
+# set VITE_CLERK_PUBLISHABLE_KEY, VITE_WALLETCONNECT_PROJECT_ID, VITE_INFURA_ID
 npm install
 npm run dev
 ```
+
+## Frontend env for production-ready auth + wallet
+
+```
+VITE_CLERK_PUBLISHABLE_KEY=
+VITE_WALLETCONNECT_PROJECT_ID=
+VITE_INFURA_ID=
+```
+
+- **Clerk** handles sign-in/sign-up.
+- **WalletConnect v2** handles EVM wallets (ERC20/BEP20).
+- **TronLink** handles TRC20 wallet connection in-browser.
+- **Infura** is used as the EVM RPC provider for Ethereum/Sepolia in wallet connection flows.
 
 ## Backend setup
 ```bash
