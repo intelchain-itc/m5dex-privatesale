@@ -5,7 +5,7 @@ import { useWallet } from '../context/WalletContext.jsx';
 
 const Presale = () => {
   const { addPurchase, confirmPurchase, error } = useSaleState();
-  const { wallet } = useWallet();
+  const { wallet, tronWallet, openModal } = useWallet();
   const [tokenId, setTokenId] = useState(paymentTokens[0].id);
   const [amount, setAmount] = useState('50');
   const [purchaseInfo, setPurchaseInfo] = useState(null);
@@ -16,6 +16,16 @@ const Presale = () => {
     () => paymentTokens.find((token) => token.id === tokenId),
     [tokenId]
   );
+
+  const isWalletConnected = useMemo(() => {
+    if (!selectedToken) {
+      return false;
+    }
+    if (selectedToken.networkKey === 'trc20') {
+      return Boolean(tronWallet);
+    }
+    return Boolean(wallet);
+  }, [selectedToken, tronWallet, wallet]);
 
   const receivedTokens = useMemo(() => {
     const numeric = Number(amount);
@@ -29,6 +39,12 @@ const Presale = () => {
     if (!selectedToken) {
       return;
     }
+
+    if (!isWalletConnected) {
+      openModal();
+      return;
+    }
+
     const info = await addPurchase(amount, selectedToken.networkKey);
     setPurchaseInfo(info);
   };
@@ -107,7 +123,7 @@ const Presale = () => {
           <strong>{receivedTokens.toLocaleString()} M5VF</strong>
         </div>
         <button className="primary-button wide" onClick={handlePurchase}>
-          {wallet ? 'Generate Deposit' : 'Connect Wallet to Continue'}
+          {isWalletConnected ? 'Generate Deposit' : `Connect ${selectedToken?.network} Wallet`}
         </button>
         {purchaseInfo && (
           <div className="purchase-confirm">
