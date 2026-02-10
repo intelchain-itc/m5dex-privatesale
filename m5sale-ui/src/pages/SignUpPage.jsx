@@ -5,8 +5,8 @@ const SignUpPage = () => (
     <div className="auth-shell">
       <div className="auth-left">
         <div className="auth-left-content">
-          <h2>Create your M5VF account</h2>
-          <p>Join the private sale and unlock referral rewards across three levels.</p>
+          <h2>Create your M5VF account in seconds</h2>
+          <p>Join a beautiful onboarding flow and unlock tiered referral rewards from day one.</p>
         </div>
       </div>
       <div className="auth-right">
