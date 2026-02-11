@@ -14,99 +14,110 @@ const Dashboard = () => {
     : '';
 
   return (
-    <div className="dashboard-grid">
+    <div className="dashboard-v2">
       <section className="stats-row">
-        <div className="stat-card stat-purple">
-          <div>
-            <h3>Token Price</h3>
-            <p>${activeRound.price} USD</p>
-          </div>
-        </div>
-        <div className="stat-card stat-green">
-          <div>
-            <h3>Participants</h3>
-            <p>{loading ? 'Loading...' : state.participants}</p>
-          </div>
-        </div>
-        <div className="stat-card stat-blue">
-          <div>
-            <h3>Your Holdings</h3>
-            <p>{loading ? 'Loading...' : `${state.holdings.toLocaleString()} M5VF`}</p>
-          </div>
-        </div>
+        <article className="stat-card stat-purple">
+          <span>Token Price</span>
+          <strong>${activeRound.price} USD</strong>
+          <small>Current private round</small>
+        </article>
+        <article className="stat-card stat-green">
+          <span>Participants</span>
+          <strong>{loading ? 'Loading...' : state.participants.toLocaleString()}</strong>
+          <small>Registered wallets</small>
+        </article>
+        <article className="stat-card stat-blue">
+          <span>Your Holdings</span>
+          <strong>{loading ? 'Loading...' : `${state.holdings.toLocaleString()} M5VF`}</strong>
+          <small>Purchased balance</small>
+        </article>
       </section>
 
-      <section className="sale-card">
-        <header>
-          <div>
-            <h2>{activeRound.name}</h2>
-            <span className="status">LIVE</span>
-          </div>
-          <p>Sale ends in</p>
-        </header>
-        <Countdown endsAt={activeRound.endsAt} />
-        <div className="sale-details">
-          <div>
-            <span>Token Price</span>
-            <strong>${activeRound.price} USD</strong>
-          </div>
-          <div>
-            <span>Allocation</span>
-            <strong>{activeRound.allocation}</strong>
-          </div>
-          <div>
-            <span>Percentage</span>
-            <strong>{activeRound.percentage}</strong>
-          </div>
-          <div>
-            <span>Price Discount</span>
-            <strong className="highlight">{activeRound.discount}</strong>
-          </div>
-        </div>
-        <button className="primary-button wide">Participate Now</button>
-        <p className="helper">Join the private sale round and get your M5VF tokens.</p>
-        <ul className="benefits">
-          <li>Secure token purchase</li>
-          <li>Transparent pricing</li>
-          <li>Instant token delivery</li>
-        </ul>
-      </section>
-
-      <aside className="side-panels">
-        <div className="panel">
-          <h3>Your Referral Link</h3>
-          <p>Share to earn multi-level commissions on your downline.</p>
-          {wallet && referralLink ? (
-            <div className="referral-box">
-              <span>{referralLink}</span>
-              <strong>${profile.commissionTotal.toFixed(2)} earned</strong>
+      <div className="dashboard-main-grid">
+        <section className="sale-card">
+          <header className="sale-header">
+            <div>
+              <p className="section-eyebrow">Active round</p>
+              <h2>{activeRound.name}</h2>
             </div>
-          ) : (
-            <button className="ghost-button">Connect your wallet</button>
-          )}
-        </div>
-        <div className="panel">
-          <h3>Airdrop Overview</h3>
-          <p>View and manage your recent airdrops</p>
-          <button className="ghost-button">Connect your wallet</button>
-        </div>
-        <div className="panel">
-          <h3>Carbon Vault Activity</h3>
-          <p>Track your carbon offset contributions</p>
-          <span className="chip">10% APY</span>
-          <button className="ghost-button">Connect your wallet</button>
-        </div>
-      </aside>
+            <span className="status">{activeRound.status}</span>
+          </header>
+
+          <div className="countdown-wrap">
+            <p>Sale ends in</p>
+            <Countdown endsAt={activeRound.endsAt} />
+          </div>
+
+          <div className="sale-details">
+            <div>
+              <span>Token Price</span>
+              <strong>${activeRound.price} USD</strong>
+            </div>
+            <div>
+              <span>Allocation</span>
+              <strong>{activeRound.allocation}</strong>
+            </div>
+            <div>
+              <span>Round Share</span>
+              <strong>{activeRound.percentage}</strong>
+            </div>
+            <div>
+              <span>Discount</span>
+              <strong className="highlight">{activeRound.discount}</strong>
+            </div>
+          </div>
+
+          <div className="sale-footer">
+            <button className="primary-button">Participate Now</button>
+            <ul className="benefits">
+              <li>Secure purchase</li>
+              <li>Transparent pricing</li>
+              <li>Fast settlement</li>
+            </ul>
+          </div>
+        </section>
+
+        <aside className="side-panels">
+          <div className="panel">
+            <h3>Your Referral Link</h3>
+            <p>Share your code and track commissions from your network.</p>
+            {wallet && referralLink ? (
+              <div className="referral-box">
+                <span>{referralLink}</span>
+                <strong>${profile.commissionTotal.toFixed(2)} earned</strong>
+              </div>
+            ) : (
+              <button className="ghost-button wide">Connect your wallet</button>
+            )}
+          </div>
+
+          <div className="panel mini-panel">
+            <div>
+              <h3>Airdrop Overview</h3>
+              <p>Claim-ready rewards will appear here.</p>
+            </div>
+            <button className="ghost-button wide">Connect wallet</button>
+          </div>
+
+          <div className="panel mini-panel">
+            <div>
+              <h3>Carbon Vault Activity</h3>
+              <p>Offset rewards and APY tracking.</p>
+            </div>
+            <span className="chip">10% APY</span>
+          </div>
+        </aside>
+      </div>
 
       <section className="market-summary">
         <h3>Market Summary</h3>
         {error && <p className="error">{error}</p>}
-        <div>
+        <div className="summary-grid">
           {marketSummary.map((item) => (
-            <div key={item.label}>
+            <article key={item.label}>
               <span>{item.label}</span>
               <strong>{item.value}</strong>
-            </div>
+            </article>
           ))}
         </div>
       </section>
