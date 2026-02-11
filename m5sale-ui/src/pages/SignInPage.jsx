@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { SignIn } from '@clerk/clerk-react';
 
 const SignInPage = () => (
@@ -10,13 +11,22 @@ const SignInPage = () => (
         </div>
       </div>
       <div className="auth-right">
-        <div>
+        <div className="auth-form-wrap">
+          <Link className="auth-back-link" to="/">
+            ← Back to M5VF Private Sale landing
+          </Link>
           <SignIn
             routing="path"
             path="/sign-in"
             signUpUrl="/sign-up"
             afterSignInUrl="/dashboard"
             afterSignUpUrl="/dashboard"
+            appearance={{
+              elements: {
+                rootBox: 'clerk-auth-root',
+                card: 'clerk-auth-card',
+              },
+            }}
           />
         </div>
       </div>
