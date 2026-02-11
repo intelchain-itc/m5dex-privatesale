@@ -1,35 +1,35 @@
 import { Link } from 'react-router-dom';
 import { SignedIn, SignedOut } from '@clerk/clerk-react';
 
-const navItems = ['Home', 'Ecosystem', 'Tokenomics', 'Roadmap', 'Promotion', 'Private Sale', 'Community'];
+const navItems = ['Overview', 'Allocation', 'Utility', 'Vesting', 'FAQ', 'Private Sale', 'Community'];
 
 const ecosystemCards = [
   {
-    title: 'Cross-chain private sale',
-    detail: 'Participate with USDT on ERC20, BEP20, and TRC20 while receiving allocation tracking in one place.',
+    title: 'M5VF private allocation',
+    detail: 'Secure early-stage M5VF access in a controlled ICO private sale round with verified on-chain records.',
   },
   {
-    title: 'Investor confidence stack',
-    detail: 'Real-time funding progress, vesting milestones, and transparent referral attribution.',
+    title: 'Institutional-grade sale flow',
+    detail: 'Track commitment amounts, vesting windows, and referral performance from one premium investor portal.',
   },
   {
-    title: 'Designed for scale',
-    detail: 'A premium onboarding flow built to support a rapidly expanding DeFi ecosystem.',
+    title: 'Built for the M5DEX ecosystem',
+    detail: 'M5VF powers trading incentives, governance participation, and future ecosystem utility unlocks.',
   },
 ];
 
 const stats = [
-  { label: 'Private sale target', value: '$8,000,000' },
-  { label: 'Raised so far', value: '$2,150,000' },
-  { label: 'Completion', value: '26.8%' },
-  { label: 'Supported chains', value: 'Ethereum · BNB · Tron' },
+  { label: 'Token', value: 'M5VF' },
+  { label: 'ICO stage', value: 'Private Sale' },
+  { label: 'Accepted assets', value: 'USDT · USDC · BNB' },
+  { label: 'Network coverage', value: 'Ethereum · BNB Chain · Tron' },
 ];
 
 const milestones = [
-  { title: 'Q1', detail: 'Launch private sale dashboard and referral architecture.' },
-  { title: 'Q2', detail: 'Expand app utilities and introduce ecosystem growth incentives.' },
-  { title: 'Q3', detail: 'Token conversion, vesting claims, and analytics suite rollout.' },
-  { title: 'Q4', detail: 'Community expansion with multi-product DeFi integrations.' },
+  { title: 'Phase 01', detail: 'Private sale onboarding and priority allocation confirmations.' },
+  { title: 'Phase 02', detail: 'M5VF distribution schedule and dashboard vesting visibility.' },
+  { title: 'Phase 03', detail: 'Utility activation for ecosystem products and token conversion flows.' },
+  { title: 'Phase 04', detail: 'Community growth, governance expansion, and liquidity milestones.' },
 ];
 
 const Landing = () => {
@@ -49,7 +49,7 @@ const Landing = () => {
               </a>
             ))}
             <a href="#" className="top-nav-link dot-link">
-              <span /> Download App
+              <span /> Live Sale
             </a>
           </div>
 
@@ -59,7 +59,7 @@ const Landing = () => {
                 Sign in
               </Link>
               <Link className="primary-button gradient-button" to={signUpUrl}>
-                Join Private Sale
+                Join M5VF Private Sale
               </Link>
             </div>
           </SignedOut>
@@ -77,21 +77,21 @@ const Landing = () => {
         <section className="landing-hero dark-hero-center">
           <img className="hero-logo-large" src="https://m5dex.com/images/logo-high-res.png" alt="M5DEX" />
           <h1>
-            The Future of <span>DeFi</span>
+            M5VF Token <span>ICO Private Sale</span>
           </h1>
           <p>
-            M5DEX has built the underlying foundation for a Multi Trillion Dollar DeFi ecosystem with
-            premium private-sale experience.
+            Experience a premium, dark-first M5DEX private sale journey designed for high-conviction participants.
+            Access the M5VF round, monitor progress in real time, and prepare for long-term ecosystem utility.
           </p>
-          <h2>Where Legends Scale</h2>
+          <h2>Early Access. Structured Vesting. Real Utility.</h2>
 
           <SignedOut>
             <div className="hero-actions centered-actions">
               <Link className="primary-button gradient-button hero-cta" to={signUpUrl}>
-                Join Private Sale
+                Reserve Allocation
               </Link>
               <Link className="ghost-button solid-dark" to={signInUrl}>
-                Download App <small>BETA</small>
+                Investor Login
               </Link>
             </div>
           </SignedOut>
@@ -106,8 +106,10 @@ const Landing = () => {
 
         <section className="landing-section dark-section">
           <div className="section-header single-column">
-            <h2>Ecosystem highlights</h2>
-            <p>Crafted to feel powerful, clean, and conversion-focused from first touch to token claim.</p>
+            <h2>Why M5VF private sale</h2>
+            <p>
+              A refined ICO experience inspired by the M5DEX design language and tailored for private-round clarity.
+            </p>
           </div>
           <div className="feature-grid premium-feature-grid">
             {ecosystemCards.map((item) => (
@@ -121,7 +123,7 @@ const Landing = () => {
 
         <section className="landing-section dark-section alt-glass">
           <div className="section-header single-column">
-            <h2>Private sale snapshot</h2>
+            <h2>ICO private sale snapshot</h2>
           </div>
           <div className="tokenomics-grid">
             {stats.map((item) => (
@@ -135,8 +137,8 @@ const Landing = () => {
 
         <section className="landing-section dark-section">
           <div className="section-header single-column">
-            <h2>Roadmap</h2>
-            <p>Built for long-term ecosystem growth.</p>
+            <h2>M5VF rollout timeline</h2>
+            <p>Roadmap focused on staged delivery, token utility, and transparent participant updates.</p>
           </div>
           <div className="flow-grid premium-flow-grid roadmap-grid">
             {milestones.map((item) => (
@@ -151,8 +153,8 @@ const Landing = () => {
 
       <footer className="cookie-bar">
         <p>
-          This website uses cookies to enhance the user experience. See our{' '}
-          <a href="#">Cookie Policy</a> for more details.
+          This platform uses cookies to improve security and investor experience. Review our{' '}
+          <a href="#">Cookie Policy</a> for details.
         </p>
         <div>
           <button type="button" className="ghost-button solid-dark">
