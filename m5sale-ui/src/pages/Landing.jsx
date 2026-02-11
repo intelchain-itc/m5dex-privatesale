@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { SignedIn, SignedOut } from '@clerk/clerk-react';
+import { Button } from '../components/ui/button';
+import { Card, CardContent } from '../components/ui/card';
 
 const navItems = ['Overview', 'Allocation', 'Utility', 'Vesting', 'FAQ', 'Private Sale', 'Community'];
 
@@ -55,19 +57,19 @@ const Landing = () => {
 
           <SignedOut>
             <div className="landing-nav-actions">
-              <Link className="ghost-button" to={signInUrl}>
-                Sign in
-              </Link>
-              <Link className="primary-button gradient-button" to={signUpUrl}>
-                Join M5VF Private Sale
-              </Link>
+              <Button asChild variant="ghost" className="ghost-button">
+                <Link to={signInUrl}>Sign in</Link>
+              </Button>
+              <Button asChild className="primary-button gradient-button">
+                <Link to={signUpUrl}>Join M5VF Private Sale</Link>
+              </Button>
             </div>
           </SignedOut>
           <SignedIn>
             <div className="landing-nav-actions">
-              <Link className="primary-button gradient-button" to="/dashboard">
-                Open Dashboard
-              </Link>
+              <Button asChild className="primary-button gradient-button">
+                <Link to="/dashboard">Open Dashboard</Link>
+              </Button>
             </div>
           </SignedIn>
         </nav>
@@ -87,19 +89,19 @@ const Landing = () => {
 
           <SignedOut>
             <div className="hero-actions centered-actions">
-              <Link className="primary-button gradient-button hero-cta" to={signUpUrl}>
-                Reserve Allocation
-              </Link>
-              <Link className="ghost-button solid-dark" to={signInUrl}>
-                Investor Login
-              </Link>
+              <Button asChild className="primary-button gradient-button hero-cta">
+                <Link to={signUpUrl}>Reserve Allocation</Link>
+              </Button>
+              <Button asChild variant="secondary" className="ghost-button solid-dark">
+                <Link to={signInUrl}>Investor Login</Link>
+              </Button>
             </div>
           </SignedOut>
           <SignedIn>
             <div className="hero-actions centered-actions">
-              <Link className="primary-button gradient-button hero-cta" to="/dashboard">
-                Continue to Dashboard
-              </Link>
+              <Button asChild className="primary-button gradient-button hero-cta">
+                <Link to="/dashboard">Continue to Dashboard</Link>
+              </Button>
             </div>
           </SignedIn>
         </section>
@@ -113,10 +115,12 @@ const Landing = () => {
           </div>
           <div className="feature-grid premium-feature-grid">
             {ecosystemCards.map((item) => (
-              <article key={item.title} className="feature-card premium-feature-card">
-                <h4>{item.title}</h4>
-                <p>{item.detail}</p>
-              </article>
+              <Card key={item.title} className="feature-card premium-feature-card bg-transparent">
+                <CardContent className="p-5">
+                  <h4>{item.title}</h4>
+                  <p>{item.detail}</p>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </section>
@@ -127,10 +131,12 @@ const Landing = () => {
           </div>
           <div className="tokenomics-grid">
             {stats.map((item) => (
-              <article key={item.label} className="tokenomic-card dark-tokenomic">
-                <span>{item.label}</span>
-                <strong>{item.value}</strong>
-              </article>
+              <Card key={item.label} className="tokenomic-card dark-tokenomic bg-transparent">
+                <CardContent className="p-4 flex w-full justify-between items-center">
+                  <span>{item.label}</span>
+                  <strong>{item.value}</strong>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </section>
@@ -142,10 +148,12 @@ const Landing = () => {
           </div>
           <div className="flow-grid premium-flow-grid roadmap-grid">
             {milestones.map((item) => (
-              <article key={item.title} className="flow-step-card">
-                <span>{item.title}</span>
-                <p>{item.detail}</p>
-              </article>
+              <Card key={item.title} className="flow-step-card bg-transparent">
+                <CardContent className="p-5">
+                  <span>{item.title}</span>
+                  <p>{item.detail}</p>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </section>
@@ -153,16 +161,16 @@ const Landing = () => {
 
       <footer className="cookie-bar">
         <p>
-          This platform uses cookies to improve security and investor experience. Review our{' '}
-          <a href="#">Cookie Policy</a> for details.
+          This platform uses cookies to improve security and investor experience. Review our <a href="#">Cookie Policy</a>{' '}
+          for details.
         </p>
         <div>
-          <button type="button" className="ghost-button solid-dark">
+          <Button type="button" variant="secondary" className="ghost-button solid-dark">
             Decline
-          </button>
-          <button type="button" className="primary-button gradient-button">
+          </Button>
+          <Button type="button" className="primary-button gradient-button">
             Accept
-          </button>
+          </Button>
         </div>
       </footer>
     </div>
